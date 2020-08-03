@@ -25,7 +25,7 @@ class App extends Component {
     user: data.user
   })
   }
- handleLogout = ()=> {
+ handleLogout = () => {
   this.setState({
     isLoggedIn: false,
     user: {}
@@ -36,9 +36,9 @@ loginStatus() {
     axios.get('http://localhost:3001/logged_in',
     {withCredentials: true})
 
-    .then(resp => {
-      if (resp.data.logged_in){
-        this.handleLogin(resp)
+    .then(response => {
+      if (response.data.logged_in){
+        this.handleLogin(response)
       } else {
         this.handleLogout()
       }
@@ -53,18 +53,27 @@ loginStatus() {
       <div>
         <h1>TESTING</h1>
         <BrowserRouter>
-          <Switch>
-            <Route exact path='/' render={props => (
-              <Home {...props} loggedInStatus={this.state.isLoggedIn} />
-            )} />
-            <Route exact path='/login' render={props =>(
+        <Switch>
+            <Route 
+              exact path='/' 
+              render={props => (
+              <Home {...props} handleLogout={this.handleLogout} loggedInStatus={this.state.isLoggedIn}/>
+              )}
+            />
+            <Route 
+              exact path='/login' 
+              render={props => (
               <Login {...props} handleLogin={this.handleLogin} loggedInStatus={this.state.isLoggedIn}/>
-            )}/>
-            <Route exact path='/signup' render={props =>(
+              )}
+            />
+            <Route 
+              exact path='/signup' 
+              render={props => (
               <Signup {...props} handleLogin={this.handleLogin} loggedInStatus={this.state.isLoggedIn}/>
-            )}/>
+              )}
+            />
           </Switch>
-      </BrowserRouter>
+        </BrowserRouter>
     </div>
   );
   }  

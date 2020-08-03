@@ -13,6 +13,10 @@ class Login extends Component {
         }
     }
 
+    componentDidMount() {
+        return this.props.loggedInStatus ? this.redirect() : null
+    }
+
     handleChange = event => {
         const {name, value} = event.target
         this.setState({
@@ -31,13 +35,13 @@ class Login extends Component {
         }
 
         axios.post('http://localhost:3001/login', {user}, {withCredentials: true})
-            .then(resp => {
-                if (resp.data.logged_in) {
-                    this.props.handleLogin(resp.data)
+            .then(response => {
+                if (response.data.logged_in) {
+                    this.props.handleLogin(response.data)
                     this.redirect()
                 } else {
                     this.setState({
-                        errors: resp.data.errors
+                        errors: response.data.errors
                     })
                 }
             })
